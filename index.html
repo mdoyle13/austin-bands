@@ -6,8 +6,64 @@
         <title>Austin Band Name Generator</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/react/15.2.0/react.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+        <script src="//cdn.jsdelivr.net/underscorejs/1.8.3/underscore-min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/pure/0.6.0/pure-min.css" type="text/css" media="screen">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <script type="text/babel">
+          
+          var words = [
+            "whiskey",
+            "shivers",
+            "shakey",
+            "graves",
+            "shivery",
+            "shakes",
+            "bad",
+            "hard",
+            "street",
+            "critical",
+            "dad",
+            "dads",
+            "leather",
+            "wild",
+            "child",
+            "digital",
+            "sweet",
+            "talk",
+            "spirit"
+          ];
+          
+          var BandGenerator = React.createClass({
+            randomBandName: function() {
+              return _.sample(this.props.words, 2).join(" ")
+            },
+            
+            setBandName: function() {
+              this.setState({band: this.randomBandName() })
+            },
+            
+            getInitialState: function () {
+              return {band: this.randomBandName()}
+            },
+            
+            render: function() {
+              return (
+                <div>
+                  <h1 id="band-name">{this.state.band}</h1>
+                  <a className="pure-button pure-button-primary" href="#" onClick={this.setBandName}>Generate Another</a>
+                </div>  
+              )
+            }
+          });
+          
+          ReactDOM.render(
+            <BandGenerator words={words}/>,
+            document.getElementById('app-outlet')
+          );
+        </script>
         <style type="text/css" media="screen">
         body {
           font-family: 'Courier New', 'Courier', courier;
@@ -27,46 +83,10 @@
         }
         
         </style>
-        <!-- Place favicon.ico in the root directory -->
-        <script type="text/javascript">
-          var words = [
-            "whiskey",
-            "shivers",
-            "shakey",
-            "graves",
-            "shivery",
-            "shakes",
-            "bad",
-            "hard",
-            "street",
-            "dad",
-            "dads",
-            "leather",
-            "wild",
-            "child",
-            "digital",
-            "sweet",
-            "talk",
-            "spirit"
-          ];
-          
-          var getBandName = function() {
-            return _.sample(words, 2).join(" ") 
-          }
-          
-          var generateBandName = function(e) {
-            var el = document.getElementById("band-name");
-            el.innerText = getBandName();            
-            return false
-          }
-        </script>
     </head>
-    <body onload="generateBandName();">
+    <body>
       <img src="img/texas.png" width="80">
       <p>Austin Band Name Generator</p>
-      <h1 id="band-name"></h1>
-      <a class="pure-button pure-button-primary" href="#" onclick="generateBandName();">Generate Another</a>
-      
-        <script src="//cdn.jsdelivr.net/underscorejs/1.8.3/underscore-min.js"></script>
+      <div id="app-outlet"></div>
     </body>
 </html>
